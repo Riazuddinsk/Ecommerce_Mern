@@ -40,7 +40,7 @@ export default function Signup(){
     }
 
     return(
-       <div className="bg-blue-200 h-full  flex gap-5 pb-20 justify-center">
+       <div className="bg-[url('bg.png')] cover h-full  flex gap-5 pb-20 justify-center">
          <div className="hidden sm:block w-full md:w-2/5 lg:w-4/7 p-10 text-center">
           <h1 className="font-bold text-6xl lg:mt-30">Create Your Merchant Account</h1>
           <p className="text-xl mt-4 font-serif">Your Products, your Brands. Start selling with NexShop </p>
@@ -52,7 +52,7 @@ export default function Signup(){
             </div>
             <div>
                 <p className=" mt-10 lg:mt-0"> Shop As Customer?</p>
-               <Link className= "bg-amber-50 border-s-2 inline-block shadow-xl shadow-gray-500 mt-1 h-14 w-60 text-center py-3 text- rounded-3xl font-serif duration-200 hover:bg-blue-400" >Join AS Customer</Link>
+               <Link to={"/customerSignup"} className= "bg-amber-50 border-s-2 inline-block shadow-xl shadow-gray-500 mt-1 h-14 w-60 text-center py-3 text- rounded-3xl font-serif duration-200 hover:bg-blue-400" >Join AS Customer</Link>
             </div>
             </div>
           </div>
@@ -121,7 +121,7 @@ export default function Signup(){
             </div>
             <div className="flex gap-10  block sm:hidden">
                 <Link to={"/login"} className=" bg-green-500 border-s-2 shadow-xl shadow-gray-500 mt-1 h-14 w-50 text-center py-3 text-2xl rounded-3xl font-serif duration-200 hover:bg-green-400" >Login</Link>
-                <Link className="bg-amber-50 border-s-2 shadow-xl shadow-gray-500 mt-1 h-14 w-70 text-center py-3 text- rounded-3xl font-serif duration-200 hover:bg-blue-400" >Join As Customer</Link>
+                <Link to={"/customerSignup"} className="bg-amber-50 border-s-2 shadow-xl shadow-gray-500 mt-1 h-14 w-70 text-center py-3 text- rounded-3xl font-serif duration-200 hover:bg-blue-400" >Join As Customer</Link>
              
             </div>
          </div>
