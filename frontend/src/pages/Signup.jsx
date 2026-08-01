@@ -90,6 +90,7 @@ export default function Signup(){
                    />
                    <p className="font-bold text-xl font-serif mb-2">Mobile Number:</p>
                     <input 
+                    type="number"
                     name='mobile_number'
                     placeholder="Enter Your Mobile Number"
                     value={form.mobile_number}
