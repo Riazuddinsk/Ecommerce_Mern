@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
 const ProductSchema = new mongoose.Schema({
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+      },
       title:{
         required:true,
         type:String,
@@ -32,7 +37,6 @@ const ProductSchema = new mongoose.Schema({
         type:String,
       },
       size:{
-        required:true,
         type:String
       },
       color:{
@@ -42,6 +46,18 @@ const ProductSchema = new mongoose.Schema({
         type:String
       },
       image:{
+        required:true,
+        type:String
+      },
+      image2:{
+        required:true,
+        type:String
+      },
+      image3:{
+        required:true,
+        type:String
+      },
+      image4:{
         required:true,
         type:String
       }
