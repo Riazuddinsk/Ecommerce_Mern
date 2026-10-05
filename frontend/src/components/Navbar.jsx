@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router"; // Use "react-router-dom" if required
+import { Link, useNavigate, useLocation } from "react-router"; 
 import { FaShoppingCart, FaUser, FaSearch } from "react-icons/fa";
 import { FiMenu, FiX } from "react-icons/fi";
 import api from "../api/axios";
@@ -16,7 +16,6 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { cartCount, setCartCount } = useCart();
 
-  // Hide search bar on auth and admin pages
   const hideSearch =
     location.pathname === "/login" ||
     location.pathname === "/signup" ||
@@ -57,7 +56,6 @@ export default function Navbar() {
     setIsOpen(false);
   }, [location.pathname]);
 
-  // Load cart count when Navbar loads
   useEffect(() => {
     const loadCartCount = async () => {
       if (!userId) return;
@@ -86,7 +84,6 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-20 gap-4">
           
-          {/* 1. LOGO */}
           <Link to="/" className="flex-shrink-0 flex items-center gap-1 group">
             <div className="bg-indigo-600 text-white p-1.5 rounded-lg group-hover:bg-indigo-700 transition-colors hidden sm:block">
               <FaShoppingCart className="text-xl" />
@@ -96,7 +93,6 @@ export default function Navbar() {
             </p>
           </Link>
 
-          {/* 2. SEARCH BAR (Desktop & Mobile - Outside Menu) */}
           {!hideSearch && (
             <div className="flex-1 max-w-2xl mx-auto">
               <div className="relative w-full group">
@@ -114,10 +110,8 @@ export default function Navbar() {
             </div>
           )}
 
-          {/* 3. RIGHT ACTIONS (Desktop) */}
           <div className="hidden md:flex items-center gap-6">
             
-            {/* User Profile / Login */}
             {!hideProfile && userId ? (
               <div className="flex items-center gap-3 bg-gray-50 hover:bg-gray-100 border border-gray-200 py-1.5 px-4 rounded-full transition-colors cursor-pointer">
                 <div className="bg-indigo-100 text-indigo-600 p-1.5 rounded-full">
@@ -138,7 +132,6 @@ export default function Navbar() {
               </Link>
             )}
 
-            {/* Cart Icon */}
             {userId && !hideCart && (
               <Link to="/cart" className="relative p-2 group">
                 <FaShoppingCart className="text-2xl text-gray-700 group-hover:text-indigo-600 transition-colors" />
@@ -164,7 +157,6 @@ export default function Navbar() {
             }
           </div>
 
-          {/* 4. MOBILE MENU TOGGLE */}
           {!hideProfile && (
             <div className="flex items-center md:hidden">
             <button
@@ -180,12 +172,10 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* 5. MOBILE MENU (Collapsible) */}
       {!hideProfile && (
         <div className={`md:hidden bg-white border-t border-gray-100 overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-64 py-4' : 'max-h-0 py-0'}`}>
         <div className="px-4 space-y-3 flex flex-col">
           
-          {/* Mobile User Section */}
           {userId ? (
             <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100">
               <div className="bg-indigo-100 text-indigo-600 p-2 rounded-full flex-shrink-0">
@@ -219,7 +209,6 @@ export default function Navbar() {
             </Link>
           )}
 
-          {/* Mobile Cart Section */}
           {userId && (
             <Link
               to="/cart"
