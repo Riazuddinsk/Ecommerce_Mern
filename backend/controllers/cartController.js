@@ -3,8 +3,8 @@ import Cart from "../models/CartModel.js"
 export const AddCart = async(req, res)=>{
     try {
         const {userId,productId} = req.body
-        console.log("userId:", userId);
-        console.log("productId:", productId);
+        // console.log("userId:", userId);
+        // console.log("productId:", productId);
 
         let cart = await Cart.findOne({userId})
         if(!cart){
