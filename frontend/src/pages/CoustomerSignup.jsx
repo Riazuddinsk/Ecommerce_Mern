@@ -1,120 +1,185 @@
-import { Link } from "react-router";
-import api from "../api/axios";
 import { useState } from "react";
+import { Link } from "react-router"; 
+import api from "../api/axios";
+import { FaUser, FaEnvelope, FaLock, FaStore, FaShoppingBag } from "react-icons/fa";
 
-export default function Signup2(){
-    const [form, setForm] = useState({
-        name:"",
-        email:"",
-        password:""
-    })
-    const [msg, setMsg] = useState("")
+export default function Signup2() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const [msg, setMsg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-    const handleChange =(e)=>{
-        setForm({
-            ...form,
-            [e.target.name]:e.target.value
-        })
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await api.post("/auth2/usersignup", form);
+      setMsg(response.data.message || "Account created successfully!");
+
+      setForm({
+        name: "",
+        email: "",
+        password: "",
+      });
+
+      setTimeout(() => {
+        setMsg("");
+      }, 4000);
+    } catch (error) {
+      setMsg(error.response?.data?.message || "An Error Occurred...");
+      setTimeout(() => {
+        setMsg("");
+      }, 4000);
+    } finally {
+      setIsLoading(false);
     }
+  };
 
-    const handleSubmit = async(e)=>{
-        e.preventDefault();
+  return (
+    <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50 font-sans">
+      
+      <div className="lg:w-5/12 bg-gradient-to-br from-indigo-600 to-blue-800 text-white flex flex-col justify-between p-8 lg:p-16 shadow-2xl z-10">
+        <div>
+          <Link to="/" className="flex items-center gap-2 text-3xl font-bold tracking-wider mb-12 cursor-pointer">
+            <FaShoppingBag className="text-amber-300" />
+            <span>Nex<span className="font-light">Shop</span></span>
+          </Link>
+          
+          <h1 className="text-4xl lg:text-5xl font-bold leading-tight mb-6">
+            Join the Best <br /> Shopping Experience.
+          </h1>
+          <p className="text-lg text-indigo-100 mb-12">
+            Create an account to shop your favorite products, track orders, and discover amazing daily deals with NexShop.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <p className="text-sm text-indigo-200 font-medium uppercase tracking-widest">Are you a merchant?</p>
+          <Link
+            to="/signup"
+            className="inline-flex items-center gap-3 bg-white/10 hover:bg-white/20 border border-white/30 text-white px-6 py-4 rounded-2xl font-medium transition-all backdrop-blur-sm"
+          >
+            <FaStore className="text-amber-300 text-xl" />
+            Become a Seller on NexShop
+          </Link>
+        </div>
+      </div>
+
+      <div className="lg:w-7/12 flex flex-col justify-center items-center p-6 sm:p-12 relative">
         
-        try {
-            const response = await api.post("/auth2/usersignup",form)
-            setMsg(response.data.message)
-
-            setForm({
-                name:"",
-                email:"",
-                password:""
-            })
-            setTimeout(()=>{
-                setMsg("")
-            },4000)
-        } catch (error) {
-            setMsg("An Error Ocurred...")
-        }
-    }
-
-    return(
-        <div className="bg-[url('bg.png')] cover h-full  flex gap-5 pb-20 justify-center">
-         <div className="hidden sm:block w-full md:w-2/5 lg:w-4/7 p-10 text-center">
-          <h1 className="font-bold text-6xl lg:mt-30">Create Your Account</h1>
-          <p className="text-xl mt-4 font-serif">Shop your favorite products with NexShop </p>
-          <div className="  mt-5">
-            <div className="lg:flex gap-17 mt-20 justify-center">
-            <div >
-                <p className=" mb-2"> Account Already Exist?</p>
-                <Link to={"/customerLogin"} className="inline-block text-center bg-green-500 border-s-2 shadow-xl shadow-gray-500 h-14 w-60  py-3 text-2xl rounded-3xl font-serif duration-200 hover:bg-green-400" >Login</Link>
-            </div>
-            <div>
-                <p className=" mt-10 lg:mt-0"> Want to sell on NexShop?</p>
-               <Link to={"/signup"} className= "bg-amber-50 border-s-2 inline-block shadow-xl shadow-gray-500 mt-1 h-14 w-60 text-center py-3 text- rounded-3xl font-serif duration-200 hover:bg-blue-400" >Become a Seller</Link>
-            </div>
-            </div>
+        <div className="max-w-md w-full bg-white rounded-3xl shadow-xl border border-gray-100 p-8 sm:p-10">
+          
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h2>
+            <p className="text-gray-500">Sign up to get started</p>
           </div>
-         </div>
-         <div className=" w-full md:w-3/5 lg:w-3/7 text-center pl-8 pr-8 ">
-            <p className="block sm:hidden font-bold text-3xl mt-6 italic">Nex<span className=" font-normal not-italic">Shop</span></p>
-            <h1 className=" block sm:hidden font-bold text-5xl mt-8">Create Your Account</h1>
-            <p className="block sm:hidden text-xl mt-3 font-serif ">Shop your favorite products with NexShop </p>
 
-            {msg &&(
-                    <div className="mb-0 text-center mt-10 text-sm text-blue-600 font-medium"> {msg} </div>
-             )}
+          {msg && (
+            <div className={`mb-6 p-4 rounded-xl text-sm font-medium text-center transition-all ${
+              msg.toLowerCase().includes("error") 
+                ? "bg-red-50 text-red-600 border border-red-200" 
+                : "bg-green-50 text-green-700 border border-green-200"
+            }`}>
+              {msg}
+            </div>
+          )}
 
-            <div className="bg-blue-100 mt-5 md:mt-18 lg:mt-20 p-4 shadow-xl shadow-gray-400 rounded-3xl text-left">
-                <form  onSubmit={handleSubmit} className="space-y-4 ">
-                  <p className="font-bold text-xl font-serif mb-2">Name:</p>
-                  <input 
-                    type="text"
-                    name='name'
-                    placeholder="Enter Your Name"
-                    value={form.name}
-                    onChange={handleChange}
-                    className=" w-full px-5 py-2 border border-gray-400 bg-amber-50 h-15 rounded-3xl focus:outline-none focus:ring-1 focus:ring-blue-400"
-                    required
-                   />
-                   <p className="font-bold text-xl font-serif mb-2">Email:</p>
-                    <input 
-                    type="email"
-                    name='email'
-                    placeholder="Enter Your Email"
-                    value={form.email}
-                    onChange={handleChange}
-                    className=" w-full px-5 py-2 border border-gray-400 bg-amber-50 h-15 rounded-3xl focus:outline-none focus:ring-1 focus:ring-blue-400"
-                    required
-                   />
-                   <p className="font-bold text-xl font-serif mb-2">Password:</p>
-                    <input 
-                    type="password"
-                    name='password'
-                    placeholder="Enter Your password"
-                    value={form.password}
-                    onChange={handleChange}
-                    className=" w-full px-5 py-2 border border-gray-400 bg-amber-50 h-15 rounded-3xl focus:outline-none focus:ring-1 focus:ring-blue-400"
-                    required
-                   />
-                   <button
-                   type="submit"
-                   className="w-full h-15 bg-blue-500 text-white py-2 px-4 rounded-3xl text-2xl cursor-pointer duration-200 hover:bg-blue-600 "
-                   >
-                    Sign Up
-                    </button>
-                </form>
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Full Name</label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                  <FaUser />
+                </div>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="John Doe"
+                  value={form.name}
+                  onChange={handleChange}
+                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                  required
+                />
+              </div>
             </div>
-            <div className="flex gap-10 mt-5 block sm:hidden">
-               <p className=" "> Account Already Exist?</p>
-               <p className="ml-8"> Want to sell on NexShop?</p>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                  <FaEnvelope />
+                </div>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="you@example.com"
+                  value={form.email}
+                  onChange={handleChange}
+                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                  required
+                />
+              </div>
             </div>
-            <div className="flex gap-10  block sm:hidden">
-                <Link to={"/customerLogin"} className=" bg-green-500 border-s-2 shadow-xl shadow-gray-500 mt-1 h-14 w-50 text-center py-3 text-2xl rounded-3xl font-serif duration-200 hover:bg-green-400" >Login</Link>
-                <Link to={"/signup"} className="bg-amber-50 border-s-2 shadow-xl shadow-gray-500 mt-1 h-14 w-70 text-center py-3 text- rounded-3xl font-serif duration-200 hover:bg-blue-400" >Become a Seller</Link>
-             
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                  <FaLock />
+                </div>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="••••••••"
+                  value={form.password}
+                  onChange={handleChange}
+                  className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                  required
+                />
+              </div>
             </div>
-         </div>
-         
-       </div>
-    )
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 cursor-pointer text-white font-bold py-3.5 px-4 rounded-xl transition-all shadow-md shadow-indigo-200 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center"
+            >
+              {isLoading ? (
+                <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                "Create Account"
+              )}
+            </button>
+          </form>
+
+          <div className="mt-8 text-center border-t border-gray-100 pt-6">
+            <p className="text-gray-600">
+              Already have an account?{" "}
+              <Link to="/customerLogin" className="text-indigo-600 font-bold hover:underline">
+                Log in here
+              </Link>
+            </p>
+          </div>
+
+          <div className="mt-4 text-center lg:hidden">
+             <Link to="/signup" className="text-gray-500 text-sm font-medium hover:text-indigo-600 flex items-center justify-center gap-2">
+                <FaStore /> Want to sell on NexShop?
+             </Link>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
 }
