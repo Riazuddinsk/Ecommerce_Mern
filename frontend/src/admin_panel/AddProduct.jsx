@@ -2,8 +2,9 @@ import { useState } from "react";
 import api from "../api/axios.js";
 import { 
   FaBoxOpen, FaTag, FaImage, FaRupeeSign, 
-  FaListUl, FaWeightHanging, FaPalette, FaRuler, FaUpload 
+  FaListUl, FaWeightHanging, FaPalette, FaRuler, FaUpload ,FaArrowLeft
 } from "react-icons/fa";
+import { useParams, useNavigate, Link } from "react-router";
 
 export default function AddProduct() {
   const userId = localStorage.getItem("userId");
@@ -35,7 +36,6 @@ export default function AddProduct() {
     });
   };
 
-  // 🚀 Efficient Compression Function using HTML5 Canvas
   const compressImage = (file, maxWidth = 800, maxHeight = 800, quality = 0.7) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -67,7 +67,7 @@ export default function AddProduct() {
           const ctx = canvas.getContext("2d");
           ctx.drawImage(img, 0, 0, width, height);
 
-          // Compress to JPEG with lower quality level (e.g., 0.7)
+          // Compress to JPEG with lower quality level 
           const compressedDataUrl = canvas.toDataURL("image/jpeg", quality);
           resolve(compressedDataUrl);
         };
@@ -77,13 +77,12 @@ export default function AddProduct() {
     });
   };
 
-  // Updated image handler with compression
   const handleLocalImageSelect = async (e, fieldName) => {
     const file = e.target.files[0];
     if (!file) return;
 
     try {
-      // Compress image down to max 800px width/height and 70% quality (~80% smaller size)
+      // Compress image down to max 800px width/height and 70% quality 
       const compressedBase64 = await compressImage(file, 800, 800, 0.7);
       setForm((prev) => ({ ...prev, [fieldName]: compressedBase64 }));
     } catch (err) {
@@ -127,8 +126,8 @@ export default function AddProduct() {
     <div className="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-5xl mx-auto">
         
-        {/* Header Section */}
-        <div className="mb-8">
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
             <FaBoxOpen className="text-indigo-600" /> 
             Add New Product
@@ -136,7 +135,14 @@ export default function AddProduct() {
           <p className="text-gray-500 mt-2">Fill in the details below to list a new item in your store.</p>
         </div>
 
-        {/* Alert Message */}
+        <Link
+            to="/products"
+            className="flex items-center gap-2 text-indigo-600 font-medium hover:text-indigo-800 transition-colors bg-indigo-50 px-4 py-2 rounded-lg w-fit"
+          >
+            <FaArrowLeft /> Back to Products
+          </Link>
+        </div>
+
         {msg && (
           <div className={`mb-6 p-4 rounded-xl text-sm font-medium transition-all flex items-center gap-2 ${
             msg.toLowerCase().includes("error") 
@@ -150,12 +156,10 @@ export default function AddProduct() {
 
         <form onSubmit={handleSubmit} className="space-y-8">
           
-          {/* Section 1: General Information */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
             <h2 className="text-xl font-bold text-gray-800 mb-6 border-b border-gray-100 pb-4">General Information</h2>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Product Title */}
               <div className="lg:col-span-2">
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Product Name *</label>
                 <input
@@ -169,7 +173,6 @@ export default function AddProduct() {
                 />
               </div>
 
-              {/* Description */}
               <div className="lg:col-span-2">
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Description *</label>
                 <textarea
@@ -184,7 +187,6 @@ export default function AddProduct() {
                 />
               </div>
 
-              {/* Category */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Category *</label>
                 <div className="relative">
@@ -204,7 +206,6 @@ export default function AddProduct() {
                 </div>
               </div>
 
-              {/* Primary Image (Image 1) */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Primary Image URL or Path *
@@ -247,7 +248,6 @@ export default function AddProduct() {
                 )}
               </div>
 
-              {/* Secondary Image (Image 2) */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Second Image URL or Path
@@ -289,7 +289,6 @@ export default function AddProduct() {
                 )}
               </div>
 
-              {/* Third Image */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Third Image URL or Path
@@ -331,7 +330,6 @@ export default function AddProduct() {
                 )}
               </div>
 
-              {/* Fourth Image */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Fourth Image URL or Path
@@ -376,7 +374,6 @@ export default function AddProduct() {
             </div>
           </div>
 
-          {/* Section 2: Pricing & Inventory */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
             <h2 className="text-xl font-bold text-gray-800 mb-6 border-b border-gray-100 pb-4">Pricing & Inventory</h2>
             
@@ -427,7 +424,6 @@ export default function AddProduct() {
             </div>
           </div>
 
-          {/* Section 3: Product Specifications */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
             <h2 className="text-xl font-bold text-gray-800 mb-6 border-b border-gray-100 pb-4">Specifications</h2>
             
@@ -506,7 +502,6 @@ export default function AddProduct() {
             </div>
           </div>
 
-          {/* Submit Action */}
           <div className="flex justify-end pt-4 pb-12">
             <button 
               type="submit"
