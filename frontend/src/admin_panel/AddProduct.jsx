@@ -1,408 +1,528 @@
 import { useState } from "react";
-import api from "../api/axios.js"
+import api from "../api/axios.js";
+import { 
+  FaBoxOpen, FaTag, FaImage, FaRupeeSign, 
+  FaListUl, FaWeightHanging, FaPalette, FaRuler, FaUpload 
+} from "react-icons/fa";
 
-export default function AddProduct(){
+export default function AddProduct() {
+  const userId = localStorage.getItem("userId");
+  
   const categories = [
-  "Electronics",
-  "Mobiles",
-  "Laptops",
-  "Tablets",
-  "Smart Watches",
-  "Headphones",
-  "Speakers",
-  "Cameras",
-  "Televisions",
-  "Gaming Consoles",
-  "Computer Accessories",
-  "Printers",
-  "Monitors",
-  "Keyboards",
-  "Mouse",
-  "Power Banks",
-  "Chargers",
-  "Phone Cases",
-  "Screen Protectors",
-  "Storage Devices",
-  "Men's Clothing",
-  "Women's Clothing",
-  "Kids Clothing",
-  "Baby Clothing",
-  "T-Shirts",
-  "Shirts",
-  "Jeans",
-  "Pants",
-  "Shorts",
-  "Jackets",
-  "Hoodies",
-  "Sweaters",
-  "Blazers",
-  "Suits",
-  "Sarees",
-  "Kurtis",
-  "Lehengas",
-  "Hijabs",
-  "Abayas",
-  "Nightwear",
-  "Shoes",
-  "Sneakers",
-  "Sandals",
-  "Slippers",
-  "Boots",
-  "Sports Shoes",
-  "Formal Shoes",
-  "Bags",
-  "Backpacks",
-  "Wallets",
-  "Handbags",
-  "Travel Bags",
-  "Luggage",
-  "Jewelry",
-  "Necklaces",
-  "Rings",
-  "Bracelets",
-  "Earrings",
-  "Watches",
-  "Perfumes",
-  "Beauty Products",
-  "Skincare",
-  "Hair Care",
-  "Makeup",
-  "Lipstick",
-  "Foundation",
-  "Nail Polish",
-  "Face Wash",
-  "Soap",
-  "Shampoo",
-  "Conditioner",
-  "Body Lotion",
-  "Deodorants",
-  "Groceries",
-  "Rice",
-  "Flour",
-  "Cooking Oil",
-  "Spices",
-  "Tea",
-  "Coffee",
-  "Snacks",
-  "Soft Drinks",
-  "Juices",
-  "Chocolate",
-  "Biscuits",
-  "Dairy Products",
-  "Frozen Food",
-  "Vegetables",
-  "Fruits",
-  "Meat",
-  "Fish",
-  "Eggs",
-  "Bakery",
-  "Home Decor",
-  "Furniture",
-  "Sofas",
-  "Beds",
-  "Dining Tables",
-  "Chairs",
-  "Wardrobes",
-  "Curtains",
-  "Carpets",
-  "Wall Art",
-  "Lighting",
-  "Kitchen Appliances",
-  "Cookware",
-  "Dinner Sets",
-  "Water Bottles",
-  "Storage Containers",
-  "Cleaning Supplies",
-  "Stationery",
-  "Books",
-  "Notebooks",
-  "Pens",
-  "Pencils",
-  "Markers",
-  "School Bags",
-  "Office Supplies",
-  "Art Supplies",
-  "Toys",
-  "Educational Toys",
-  "Action Figures",
-  "Dolls",
-  "Board Games",
-  "Puzzles",
-  "Sports Equipment",
-  "Cricket",
-  "Football",
-  "Basketball",
-  "Books",
-  "Badminton",
-  "Gym Equipment",
-  "Yoga Mats",
-  "Cycling",
-  "Camping",
-  "Fitness Accessories",
-  "Pet Food",
-  "Pet Toys",
-  "Pet Accessories",
-  "Dog Supplies",
-  "Cat Supplies",
-  "Car Accessories",
-  "Bike Accessories",
-  "Helmets",
-  "Car Care",
-  "Motor Oils",
-  "Tools",
-  "Hardware",
-  "Garden Tools",
-  "Plants",
-  "Seeds",
-  "Fertilizers",
-  "Musical Instruments",
-  "Guitars",
-  "Keyboards",
-  "Drums",
-  "Microphones",
-  "Party Supplies",
-  "Gift Items",
-  "Greeting Cards",
-  "Gift Wrap",
-  "Baby Products",
-  "Diapers",
-  "Baby Toys",
-  "Baby Care",
-  "Medical Supplies",
-  "Vitamins",
-  "Health Devices",
-  "Thermometers",
-  "Blood Pressure Monitors",
-  "Fashion Accessories",
-  "Belts",
-  "Caps",
-  "Sunglasses",
-  "Scarves",
-  "Umbrellas",
-  "Wedding Accessories",
-  "Religious Items",
-  "Islamic Books",
-  "Prayer Mats",
-  "Tasbeeh",
-  "Quran",
-  "Digital Products",
-  "Software",
-  "Gift Cards",
-  "E-Books",
-  "Online Courses",
-  "Handmade Products",
-  "Craft Supplies",
-  "Antiques",
-  "Collectibles",
-  "Office Furniture",
-  "Industrial Equipment",
-  "Safety Equipment",
-  "Solar Products",
-  "Smart Home",
-  "Security Cameras",
-  "Door Locks",
-  "LED Lights",
-  "Bicycles",
-  "Scooters",
-  "Electric Vehicles",
-  "Luxury Items",
-  "Others"
-];
-      const [form, setForm] = useState({
-        title:"",
-        description:"",
-        new_price:"",
-        old_price:"",
-        quantity:"",
-        category:"",
-        tag:"",
-        brand:"",
-        size:"",
-        color:"",
-        weight:"",
-        image:""
-      })
-      const [msg, setMsg] = useState("")
+    "Electronics", "Men's Clothing", "Women's Clothing", "Kids Clothing", "Baby Clothing",
+    "Footwear", "Accessories", "Beauty Products", "Groceries & Fresh Food", "Home Decor",
+    "Furniture", "Kitchen Appliances", "Stationery", "Books", "Toys", "Games",
+    "Fitness Accessories", "Pet Supplies", "Vehicles & Automotive", "Hardware", "Gardening",
+    "Musical Instruments", "Gift Items", "Baby Products", "Medical Supplies",
+    "Wedding Accessories", "Religious Items", "Digital Products", "Handmade Products",
+    "Craft Supplies", "Antiques", "Collectibles", "Office Furniture", "Industrial Equipment",
+    "Safety Equipment", "Solar Products", "Smart Home", "Others"
+  ];
 
-    const handleChange = (e)=>{
-        setForm({
-            ...form,
-            [e.target.name]:e.target.value
-        })
+  const [form, setForm] = useState({
+    title: "", description: "", new_price: "", old_price: "", quantity: "",
+    category: "", tag: "", brand: "", size: "", color: "", weight: "", 
+    image: "", image2: "", image3: "", image4: ""
+  });
+  
+  const [msg, setMsg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  // 🚀 Efficient Compression Function using HTML5 Canvas
+  const compressImage = (file, maxWidth = 800, maxHeight = 800, quality = 0.7) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+
+          // Calculate new dimensions while preserving aspect ratio
+          if (width > height) {
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+          } else {
+            if (height > maxHeight) {
+              width = Math.round((width * maxHeight) / height);
+              height = maxHeight;
+            }
+          }
+
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Compress to JPEG with lower quality level (e.g., 0.7)
+          const compressedDataUrl = canvas.toDataURL("image/jpeg", quality);
+          resolve(compressedDataUrl);
+        };
+        img.onerror = (error) => reject(error);
+      };
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  // Updated image handler with compression
+  const handleLocalImageSelect = async (e, fieldName) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      // Compress image down to max 800px width/height and 70% quality (~80% smaller size)
+      const compressedBase64 = await compressImage(file, 800, 800, 0.7);
+      setForm((prev) => ({ ...prev, [fieldName]: compressedBase64 }));
+    } catch (err) {
+      console.error("Image compression failed:", err);
+      setMsg("⚠️️ Error compressing image. Try another file.");
     }
+  };
 
-    const handleSubmit = async(e)=>{
-        e.preventDefault()
-        try {
-            await api.post("/products/add",form)
-            setMsg("Item add successfully")
-            setForm({
-              title: "",
-              description: "",
-              new_price: "",
-              old_price: "",
-              quantity: "",
-              category: "",
-              tag: "",
-              brand: "",
-              size: "",
-              color: "",
-              weight: "",
-              image: ""
-            })
-            setTimeout(()=>{
-                setMsg("")
-            },5000)
-        } catch (error) {
-            setMsg("Server Error")
-            setTimeout(()=>{
-                setMsg("")
-            },5000)
-        }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setMsg("");
+
+    const normalizedForm = {
+      ...form,
+      image: form.image ? form.image.trim().replace(/\\/g, "/") : "",
+      image2: form.image2 ? form.image2.trim().replace(/\\/g, "/") : "",
+      image3: form.image3 ? form.image3.trim().replace(/\\/g, "/") : "",
+      image4: form.image4 ? form.image4.trim().replace(/\\/g, "/") : "",
+      userId
+    };
+
+    try {
+      await api.post("/products/add", normalizedForm);
+      setMsg("Product added successfully!");
+      setForm({
+        title: "", description: "", new_price: "", old_price: "", quantity: "",
+        category: "", tag: "", brand: "", size: "", color: "", weight: "", 
+        image: "", image2: "", image3: "", image4: ""
+      });
+    } catch (error) {
+      console.error("Upload error details:", error);
+      const errorMsg = error.response?.data?.message || error.message || "Server Error. Failed to add product.";
+      setMsg(`⚠️ Error: ${errorMsg}`);
+    } finally {
+      setIsLoading(false);
     }
+  };
 
-    return(
-      
-          <div className="bg-[url('/addProductBg.png')] bg-cover bg-center min-h-screen flex gap-0  py-10 justify-center">
-            <form onSubmit={handleSubmit} className=" h-1vh w-lvw ">
-                <h1 className="font-bold text-3xl font-serif text-center" >Add Your Products</h1>
-                {msg && (
-                  <p className="text-green-600 text-center mt-4 mb-2">{msg}</p>
-                )}
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:px-8 px-15 mt-5">
-                    <div className="bg-transparent shadow-olive-700 shadow-2xl backdrop-blur-sm mt-10 h-135 w-full  rounded-3xl p-4">
-                       <p className="text-2xl text-black font-bold  font-serif overflow-hidden text-center ">Basic Information</p>
-                       <p className="text-xm mt-10 font-bold ">Product Name:</p>
-                       <input
-                       name="title"
-                       value={form.title}
-                       onChange={handleChange}
-                       type="text"
-                       placeholder="Enter your product name"
-                       className="h-12 w-full bg-amber-100 rounded-3xl text-black text-xm p-4 mt-2 border-gray-400 border-2 focus:outline-none focus:ring-1 focus:ring-blue-400"
-                       />
-                       <p className="text-xm mt-5 font-bold">Description:</p>
-                       <textarea
-                       name="description"
-                       value={form.description}
-                       onChange={handleChange}
-                       type="text"
-                       minLength={100}
-                       placeholder="Enter product's description (minimum 100 characters)"
-                       className="h-25 w-full bg-amber-100 rounded-3xl text-black text-xm p-4 mt-2 border-gray-400 border-2 focus:outline-none focus:ring-1 focus:ring-blue-400"
-                       />
-                       <p className="text-xm mt-5 font-bold">Category:</p>
-                       <select
-                       name="category"
-                       value={form.category}
-                       onChange={handleChange}
-                       className="h-12 w-full bg-amber-100 rounded-3xl text-black text-xm p-2 mt-2 border-gray-400 border-2 focus:outline-none focus:ring-1 focus:ring-blue-400"
-                       >
-                       <option value="">Select Category</option>
-                        {categories.map((category) => (
-                        <option key={category} value={category}> {category} </option>
-                        ))}
-                       </select> 
-                       <p className="text-xm mt-5 font-bold">Image URL:</p>
-                       <input
-                       name="image"
-                       value={form.image}
-                       onChange={handleChange}
-                       type="text"
-                       placeholder="Enter your image url"
-                       className="h-12 w-full bg-amber-100 rounded-3xl text-black text-xm p-4 mt-2 mb-8 border-gray-400 border-2 focus:outline-none focus:ring-1 focus:ring-blue-400"
-                       />
-                    </div>
-                    <div className="bg-transparent shadow-olive-700 shadow-2xl backdrop-blur-sm mt-10 h-135  rounded-3xl p-4">
-                        <p className="text-2xl text-black font-bold font-serif overflow-hidden text-center">Advance Information</p>
-                        <p className="text-xm mt-10 font-bold">Price:</p>
-                        <input
-                         name="new_price"
-                         value={form.new_price}
-                         onChange={handleChange}
-                         type="text"
-                         placeholder="Enter your items's price"
-                         className="h-12 w-full bg-amber-100 rounded-3xl text-black text-xm p-4 mt-2 mb-2 border-gray-400 border-2 focus:outline-none focus:ring-1 focus:ring-blue-400"
-                       />
-                       <p className="text-xm mt-5 font-bold">Quantity:</p>
-                        <input
-                         name="quantity"
-                         value={form.quantity}
-                         onChange={handleChange}
-                         type="text"
-                         placeholder="Enter your item's quantity"
-                         className="h-12 w-full bg-amber-100 rounded-3xl text-black text-xm p-4 mt-2 mb-2 border-gray-400 border-2 focus:outline-none focus:ring-1 focus:ring-blue-400"
-                       />
-                       <p className="text-xm mt-5 font-bold">Brand:</p>
-                        <input
-                         name="brand"
-                         value={form.brand}
-                         onChange={handleChange}
-                         type="text"
-                         placeholder="Enter your item's brand name"
-                         className="h-12 w-full bg-amber-100 rounded-3xl text-black text-xm p-4 mt-2 mb-2 border-gray-400 border-2 focus:outline-none focus:ring-1 focus:ring-blue-400"
-                       />
-                       <p className="text-xm mt-5 font-bold">Size:</p>
-                        <input
-                         name="size"
-                         value={form.size}
-                         onChange={handleChange}
-                         type="text"
-                         placeholder="Enter your item's size (eg: xl / 32 / 5x7 m^2)"
-                         className="h-12 w-full bg-amber-100 rounded-3xl text-black text-xm p-4 mt-2 mb-2 border-gray-400 border-2 focus:outline-none focus:ring-1 focus:ring-blue-400"
-                       />
-                    </div>
-                    <div className="bg-transparent shadow-olive-700 shadow-2xl backdrop-blur-sm mt-10 h-135  rounded-3xl p-4">
-                        <p className="text-2xl text-black font-bold  font-serif overflow-hidden text-center">Optional</p>
-                        <p className="text-xm mt-10 font-bold">Color:</p>
-                        <input
-                         name="color"
-                         value={form.color}
-                         onChange={handleChange}
-                         type="text"
-                         placeholder="Enter your items's color"
-                         className="h-12 w-full bg-amber-100 rounded-3xl text-black text-xm p-4 mt-2 mb-2 border-gray-400 border-2 focus:outline-none focus:ring-1 focus:ring-blue-400"
-                       />
-                       <p className="text-xm mt-5 font-bold">Weight:</p>
-                        <input
-                         name="weight"
-                         value={form.weight}
-                         onChange={handleChange}
-                         type="text"
-                         placeholder="Enter your item's weight"
-                         className="h-12 w-full bg-amber-100 rounded-3xl text-black text-xm p-4 mt-2 mb-2 border-gray-400 border-2 focus:outline-none focus:ring-1 focus:ring-blue-400"
-                       />
-                       <p className="text-xm mt-5 font-bold">Old Price:</p>
-                        <input
-                         name="old_price"
-                         value={form.old_price}
-                         onChange={handleChange}
-                         type="text"
-                         placeholder="Enter your item's old price"
-                         className="h-12 w-full bg-amber-100 rounded-3xl text-black text-xm p-4 mt-2 mb-2 border-gray-400 border-2 focus:outline-none focus:ring-1 focus:ring-blue-400"
-                       />
-                       <p className="text-xm mt-5 font-bold">tag:</p>
-                        <input
-                         name="tag"
-                         value={form.tag}
-                         onChange={handleChange}
-                         type="text"
-                         placeholder="Enter your item's tag (eg: new / offers )"
-                         className="h-12 w-full bg-amber-100 rounded-3xl text-black text-xm p-4 mt-2 mb-2 border-gray-400 border-2 focus:outline-none focus:ring-1 focus:ring-blue-400"
-                       />
-                    </div>
-                </div>
-                <div className="flex lg:justify-end justify-center">
-                  <button 
-                type="submit"
-                className=" h-15 bg-red-600 text-white lg:mr-15 py-2 px-4 rounded-3xl text-2xl cursor-pointer duration-200 hover:bg-yellow-900 mt-10 w-70 "
-                >
-                Add Product</button>
-                </div>
-                
-            </form>
-            </div>
+  return (
+    <div className="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8 font-sans">
+      <div className="max-w-5xl mx-auto">
+        
+        {/* Header Section */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+            <FaBoxOpen className="text-indigo-600" /> 
+            Add New Product
+          </h1>
+          <p className="text-gray-500 mt-2">Fill in the details below to list a new item in your store.</p>
+        </div>
+
+        {/* Alert Message */}
+        {msg && (
+          <div className={`mb-6 p-4 rounded-xl text-sm font-medium transition-all flex items-center gap-2 ${
+            msg.toLowerCase().includes("error") 
+              ? "bg-red-50 text-red-600 border border-red-200" 
+              : "bg-green-50 text-green-700 border border-green-200"
+          }`}>
+            <span className="text-lg">{msg.toLowerCase().includes("error") ? "⚠️" : "✅"}</span>
+            {msg}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-8">
+          
+          {/* Section 1: General Information */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
+            <h2 className="text-xl font-bold text-gray-800 mb-6 border-b border-gray-100 pb-4">General Information</h2>
             
-    )
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Product Title */}
+              <div className="lg:col-span-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Product Name *</label>
+                <input
+                  type="text"
+                  name="title"
+                  value={form.title}
+                  onChange={handleChange}
+                  placeholder="e.g., Wireless Noise-Cancelling Headphones"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                  required
+                />
+              </div>
+
+              {/* Description */}
+              <div className="lg:col-span-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Description *</label>
+                <textarea
+                  name="description"
+                  value={form.description}
+                  onChange={handleChange}
+                  placeholder="Enter a detailed description of your product (minimum 100 characters)"
+                  minLength={100}
+                  rows="4"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all resize-none"
+                  required
+                />
+              </div>
+
+              {/* Category */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Category *</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400"><FaListUl /></div>
+                  <select
+                    name="category"
+                    value={form.category}
+                    onChange={handleChange}
+                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all appearance-none"
+                    required
+                  >
+                    <option value="" disabled>Select Category</option>
+                    {categories.map((cat) => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Primary Image (Image 1) */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Primary Image URL or Path *
+                </label>
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                      <FaImage />
+                    </div>
+                    <input
+                      type="text"
+                      name="image"
+                      value={form.image}
+                      onChange={handleChange}
+                      placeholder="https://... or uploaded file"
+                      className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                      required
+                    />
+                  </div>
+                  <label className="px-4 py-3 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-xl cursor-pointer flex items-center gap-2 font-semibold text-sm transition-all shrink-0">
+                    <FaUpload /> Browse
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleLocalImageSelect(e, "image")}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+                
+                {form.image && (
+                  <div className="mt-3 flex items-center gap-3">
+                    <img
+                      src={form.image}
+                      alt="Preview 1"
+                      className="w-16 h-16 object-cover rounded-lg border border-gray-200"
+                    />
+                    <span className="text-xs text-gray-400 truncate max-w-xs">Compressed preview 1</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Secondary Image (Image 2) */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Second Image URL or Path
+                </label>
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                      <FaImage />
+                    </div>
+                    <input
+                      type="text"
+                      name="image2"
+                      value={form.image2}
+                      onChange={handleChange}
+                      placeholder="https://... or uploaded file"
+                      className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                    />
+                  </div>
+                  <label className="px-4 py-3 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-xl cursor-pointer flex items-center gap-2 font-semibold text-sm transition-all shrink-0">
+                    <FaUpload /> Browse
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleLocalImageSelect(e, "image2")}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+                
+                {form.image2 && (
+                  <div className="mt-3 flex items-center gap-3">
+                    <img
+                      src={form.image2}
+                      alt="Preview 2"
+                      className="w-16 h-16 object-cover rounded-lg border border-gray-200"
+                    />
+                    <span className="text-xs text-gray-400 truncate max-w-xs">Compressed preview 2</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Third Image */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Third Image URL or Path
+                </label>
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                      <FaImage />
+                    </div>
+                    <input
+                      type="text"
+                      name="image3"
+                      value={form.image3}
+                      onChange={handleChange}
+                      placeholder="https://... or uploaded file"
+                      className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                    />
+                  </div>
+                  <label className="px-4 py-3 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-xl cursor-pointer flex items-center gap-2 font-semibold text-sm transition-all shrink-0">
+                    <FaUpload /> Browse
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleLocalImageSelect(e, "image3")}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+                
+                {form.image3 && (
+                  <div className="mt-3 flex items-center gap-3">
+                    <img
+                      src={form.image3}
+                      alt="Preview 3"
+                      className="w-16 h-16 object-cover rounded-lg border border-gray-200"
+                    />
+                    <span className="text-xs text-gray-400 truncate max-w-xs">Compressed preview 3</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Fourth Image */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Fourth Image URL or Path
+                </label>
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                      <FaImage />
+                    </div>
+                    <input
+                      type="text"
+                      name="image4"
+                      value={form.image4}
+                      onChange={handleChange}
+                      placeholder="https://... or uploaded file"
+                      className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                    />
+                  </div>
+                  <label className="px-4 py-3 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-xl cursor-pointer flex items-center gap-2 font-semibold text-sm transition-all shrink-0">
+                    <FaUpload /> Browse
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleLocalImageSelect(e, "image4")}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+                
+                {form.image4 && (
+                  <div className="mt-3 flex items-center gap-3">
+                    <img
+                      src={form.image4}
+                      alt="Preview 4"
+                      className="w-16 h-16 object-cover rounded-lg border border-gray-200"
+                    />
+                    <span className="text-xs text-gray-400 truncate max-w-xs">Compressed preview 4</span>
+                  </div>
+                )}
+              </div>
+
+            </div>
+          </div>
+
+          {/* Section 2: Pricing & Inventory */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
+            <h2 className="text-xl font-bold text-gray-800 mb-6 border-b border-gray-100 pb-4">Pricing & Inventory</h2>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Selling Price *</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400"><FaRupeeSign /></div>
+                  <input
+                    type="number"
+                    name="new_price"
+                    value={form.new_price}
+                    onChange={handleChange}
+                    placeholder="0.00"
+                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Original Price (MRP)</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400"><FaRupeeSign /></div>
+                  <input
+                    type="number"
+                    name="old_price"
+                    value={form.old_price}
+                    onChange={handleChange}
+                    placeholder="0.00"
+                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Stock Quantity *</label>
+                <input
+                  type="number"
+                  name="quantity"
+                  value={form.quantity}
+                  onChange={handleChange}
+                  placeholder="e.g., 50"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Section 3: Product Specifications */}
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
+            <h2 className="text-xl font-bold text-gray-800 mb-6 border-b border-gray-100 pb-4">Specifications</h2>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Brand</label>
+                <input
+                  type="text"
+                  name="brand"
+                  value={form.brand}
+                  onChange={handleChange}
+                  placeholder="Brand Name"
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Tag</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400"><FaTag /></div>
+                  <input
+                    type="text"
+                    name="tag"
+                    value={form.tag}
+                    onChange={handleChange}
+                    placeholder="e.g., New, Sale, Hot"
+                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Size</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400"><FaRuler /></div>
+                  <input
+                    type="text"
+                    name="size"
+                    value={form.size}
+                    onChange={handleChange}
+                    placeholder="e.g., XL, 32, 5x7"
+                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Color</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400"><FaPalette /></div>
+                  <input
+                    type="text"
+                    name="color"
+                    value={form.color}
+                    onChange={handleChange}
+                    placeholder="e.g., Matte Black"
+                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Weight</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400"><FaWeightHanging /></div>
+                  <input
+                    type="text"
+                    name="weight"
+                    value={form.weight}
+                    onChange={handleChange}
+                    placeholder="e.g., 1.5 kg"
+                    className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Submit Action */}
+          <div className="flex justify-end pt-4 pb-12">
+            <button 
+              type="submit"
+              disabled={isLoading}
+              className="w-full sm:w-auto min-w-[200px] h-14 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg shadow-indigo-200 active:scale-95 disabled:opacity-70 flex justify-center items-center"
+            >
+              {isLoading ? (
+                <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                "Publish Product"
+              )}
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  );
 }
