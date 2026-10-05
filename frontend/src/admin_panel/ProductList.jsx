@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../api/axios.js";
-import { Link } from "react-router"; // Use "react-router-dom" depending on your version
+import { Link } from "react-router"; 
 import { FaPlus, FaEdit, FaTrash, FaBoxOpen, FaRupeeSign, FaTag } from "react-icons/fa";
 
 export default function ProductList() {
@@ -32,7 +32,6 @@ export default function ProductList() {
       await api.delete(`/products/delete/${id}`);
       setMsg("Product Deleted Successfully");
 
-      // Remove deleted product immediately from state
       setProducts((prev) => prev.filter((product) => product._id !== id));
 
       setTimeout(() => {
@@ -49,14 +48,12 @@ export default function ProductList() {
 
   useEffect(() => {
     loadProduct();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-7xl mx-auto">
         
-        {/* Header Section */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
@@ -74,7 +71,6 @@ export default function ProductList() {
           </Link>
         </div>
 
-        {/* Alert Message */}
         {msg && (
           <div className={`mb-6 p-4 rounded-xl text-sm font-medium transition-all flex items-center gap-2 ${
             msg.toLowerCase().includes("error") || msg.toLowerCase().includes("failed")
@@ -88,7 +84,6 @@ export default function ProductList() {
           </div>
         )}
 
-        {/* Loading State */}
         {loading && (
           <div className="flex flex-col items-center justify-center py-20">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600 mb-4"></div>
@@ -96,7 +91,6 @@ export default function ProductList() {
           </div>
         )}
 
-        {/* Empty State */}
         {!loading && products.length === 0 && (
           <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-12 text-center flex flex-col items-center max-w-2xl mx-auto mt-10">
             <div className="w-20 h-20 bg-indigo-50 text-indigo-300 rounded-full flex items-center justify-center mb-6">
@@ -115,7 +109,6 @@ export default function ProductList() {
           </div>
         )}
 
-        {/* Products Grid */}
         {!loading && products.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {products.map((product) => (
@@ -124,7 +117,6 @@ export default function ProductList() {
                 className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col group"
               >
                 
-                {/* Product Image */}
                 <div className="relative h-56 bg-gray-50 border-b border-gray-100 p-4">
                   {product.image ? (
                     <img
@@ -138,7 +130,6 @@ export default function ProductList() {
                       <span className="text-sm font-medium">No Image</span>
                     </div>
                   )}
-                  {/* Category Badge Overlay */}
                   {product.category && (
                     <span className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 text-xs font-semibold text-gray-700 rounded-md shadow-sm">
                       {product.category}
@@ -146,7 +137,6 @@ export default function ProductList() {
                   )}
                 </div>
 
-                {/* Product Info */}
                 <div className="p-5 flex flex-col flex-grow">
                   <h2 className="text-lg font-bold text-gray-900 line-clamp-1 mb-1" title={product.title}>
                     {product.title}
@@ -176,7 +166,6 @@ export default function ProductList() {
                     </div>
                   </div>
 
-                  {/* Actions */}
                   <div className="grid grid-cols-2 gap-3 pt-4 border-t border-gray-100">
                     <Link
                       to={`/editProduct/${product._id}`}
