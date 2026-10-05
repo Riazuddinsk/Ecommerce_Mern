@@ -132,7 +132,7 @@ export default function Cart() {
                     <div className="flex items-center bg-gray-50 border border-gray-200 rounded-lg p-1">
                       <button
                         onClick={() => changeQut(item.productId._id, item.quantity - 1)}
-                        className="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-indigo-600 hover:bg-gray-200 rounded-md transition-colors"
+                        className="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-indigo-600 hover:bg-gray-200 rounded-md transition-colors  cursor-pointer"
                       >
                         <FaMinus size={12} />
                       </button>
@@ -141,7 +141,7 @@ export default function Cart() {
                       </span>
                       <button
                         onClick={() => changeQut(item.productId._id, item.quantity + 1)}
-                        className="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-indigo-600 hover:bg-gray-200 rounded-md transition-colors"
+                        className="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-indigo-600 hover:bg-gray-200 rounded-md transition-colors cursor-pointer"
                       >
                         <FaPlus size={12} />
                       </button>
@@ -149,7 +149,7 @@ export default function Cart() {
 
                     <button
                       onClick={() => removeItem(item.productId._id)}
-                      className="text-red-500 hover:text-red-700 flex items-center gap-2 text-sm font-medium transition-colors"
+                      className="text-red-500 hover:text-red-700 flex items-center gap-2 text-sm font-medium transition-colors cursor-pointer"
                     >
                       <FaTrash />
                       <span className="sm:hidden">Remove</span>
