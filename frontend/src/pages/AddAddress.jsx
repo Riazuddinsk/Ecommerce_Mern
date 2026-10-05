@@ -224,7 +224,7 @@ export default function AddAddress() {
               <button 
                 type="submit"
                 disabled={isLoading}
-                className="w-full sm:w-auto min-w-[200px] bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-8 rounded-xl transition-all shadow-md shadow-indigo-200 active:scale-95 disabled:opacity-70 flex justify-center items-center float-right"
+                className="w-full sm:w-auto min-w-[200px] bg-indigo-600 cursor-pointer hover:bg-indigo-700 text-white font-bold py-3.5 px-8 rounded-xl transition-all shadow-md shadow-indigo-200 active:scale-95 disabled:opacity-70 flex justify-center items-center float-right"
               >
                 {isLoading ? (
                   <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
